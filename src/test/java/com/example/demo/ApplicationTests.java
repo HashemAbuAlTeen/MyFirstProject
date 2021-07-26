@@ -20,12 +20,7 @@ class ApplicationTests {
         assertThat(userController).isNotNull();
     }
 
-    @Test
-    @DisplayName("1 + 1 = 2")
-    void addsTwoNumbers() {
 
-        assertEquals(2, 1+1, "1 + 1 should equal 2");
-    }
 
 
 
