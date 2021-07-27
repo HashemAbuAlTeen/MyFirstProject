@@ -114,5 +114,23 @@ public class HttpRequestTest {
         assertThat( responseEntity.getStatusCode() ).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {1000})
+    public void getUserByIdForNonExistingUser(int id) throws Exception{
+        HttpHeaders header = new HttpHeaders();
+        header.add("Authorization", "Basic dXNlcjp1c2Vy");
+
+        ResponseEntity<String> responseEntity= this.restTemplate.exchange("http://localhost:" + port + "/users/" + id,
+                HttpMethod.GET,
+                new HttpEntity(header),
+                String.class);
+
+        assertThat( responseEntity.getStatusCode() ).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat( responseEntity.getBody()).isNotEmpty();
+
+    }
+
+
+
 
 }
