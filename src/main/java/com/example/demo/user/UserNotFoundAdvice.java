@@ -1,5 +1,4 @@
-package com.example.demo.Company;
-
+package com.example.demo.user;
 
 
 import org.springframework.http.HttpStatus;
@@ -9,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class UserDoesNotWorkInAnyCompanyAdvice {
+class UserNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(UserDoesNotWorkInAnyCompanyException.class)
+    @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String companyNotFoundHandler(UserDoesNotWorkInAnyCompanyException ex) {
+    String employeeNotFoundHandler(UserNotFoundException ex) {
         return ex.getMessage();
     }
 }

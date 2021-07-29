@@ -1,6 +1,6 @@
-package com.example.demo.User;
+package com.example.demo.user;
 
-import com.example.demo.Company.Company;
+import com.example.demo.company.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,14 +42,15 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
-        repository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id) );
-        repository.deleteById(id);
+        if(repository.existsById(id))
+            repository.deleteById(id);
+        else
+            throw new UserNotFoundException(id);
     }
 
     public List<User> searchUsers(String id, String firstName, String lastName, String age) {
 
-        return userDao.findUserByIdAndFirstNameAndLastNameAndAgeAndCompany_Id(id, firstName , lastName, age);
+        return userDao.findUserByIdAndFirstNameAndLastNameAndAgeAndCompanyId(id, firstName , lastName, age);
 
     }
 
@@ -64,7 +65,7 @@ public class UserService {
     }
 
     public List<User> getCompanyUsers(int companyId) {
-        return repository.findByCompany_Id(companyId);
+        return repository.findByCompanyId(companyId);
     }
 
 

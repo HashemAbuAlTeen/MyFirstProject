@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.User.UserController;
-import org.junit.jupiter.api.DisplayName;
+import com.example.demo.user.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +15,7 @@ class ApplicationTests {
     UserController userController;
 
     @Test
-    public void contextLoads()  {
+    void contextLoads()  {
         assertThat(userController).isNotNull();
     }
 

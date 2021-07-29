@@ -1,4 +1,4 @@
-package com.example.demo.Security;
+package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final String SECRET_KEY = "secret";
+    private static final String SECRET_KEY = "jdshuirvbhs@#$T45dbki";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

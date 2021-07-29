@@ -1,4 +1,4 @@
-package com.example.demo.Company;
+package com.example.demo.company;
 
 public class CompanyNotFoundException extends RuntimeException {
     public CompanyNotFoundException(int id) {

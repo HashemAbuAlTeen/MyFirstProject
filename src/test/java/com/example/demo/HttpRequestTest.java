@@ -1,10 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.Security.AuthenticationRequest;
-import com.example.demo.Security.AuthenticationResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.demo.security.AuthenticationRequest;
+import com.example.demo.security.AuthenticationResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +21,7 @@ import org.springframework.http.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HttpRequestTest {
+ class HttpRequestTest {
 
     Logger logger = LoggerFactory.getLogger(HttpRequestTest.class);
 
@@ -70,7 +68,7 @@ public class HttpRequestTest {
 
 
     @Test
-    public void adminHiPageTestWithAdminCredentials()  {
+    void adminHiPageTestWithAdminCredentials()  {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + adminJwt);
@@ -87,7 +85,7 @@ public class HttpRequestTest {
     }
 
     @Test
-    public void adminHiPageTestWithUserCredentials()  {
+    void adminHiPageTestWithUserCredentials()  {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + userJwt);
@@ -103,7 +101,7 @@ public class HttpRequestTest {
     }
 
     @Test
-    public void adminHiPageTestWithWrongCredentials()  {
+    void adminHiPageTestWithWrongCredentials()  {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " +adminJwt + "x");
@@ -119,7 +117,7 @@ public class HttpRequestTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1 ,2 ,3})
-    public void getUserByIdWithExistingUser(int id) throws Exception{
+    void getUserByIdWithExistingUser(int id) throws Exception{
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer "+ userJwt);
 
@@ -135,7 +133,7 @@ public class HttpRequestTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1 ,2 ,3})
-    public void getUserByIdWithAdmin(int id) throws Exception{
+    void getUserByIdWithAdmin(int id) throws Exception{
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + adminJwt);
 
@@ -151,7 +149,7 @@ public class HttpRequestTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1 ,2 ,3})
-    public void getUserByIdWithoutAuth(int id) {
+    void getUserByIdWithoutAuth(int id) {
         HttpHeaders header = new HttpHeaders();
 
 
@@ -165,7 +163,7 @@ public class HttpRequestTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1000})
-    public void getUserByIdForWrongToken(int id) throws Exception{
+    void getUserByIdForWrongToken(int id) throws Exception{
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + adminJwt + "x");
 

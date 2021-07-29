@@ -1,32 +1,15 @@
-package com.example.demo.User;
+package com.example.demo.user;
 
-import com.example.demo.Company.Company;
-
-import javax.persistence.*;
+import com.example.demo.company.Company;
 
 
-
-@Entity
-public class User {
-    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        int id;
+public class UserDto {
+    private int id;
     private String firstName;
     private String lastName;
     private int age;
-    @ManyToOne
     private Company company;
 
-
-
-    public User(String firstName, String lastName, int age) {
-        this.lastName = lastName;
-        this.age = age;
-        this.firstName = firstName;
-    }
-
-    public User() {
-
-    }
 
     public int getId() {
         return id;
@@ -40,8 +23,8 @@ public class User {
         return firstName;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstName = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -67,7 +50,4 @@ public class User {
     public void setCompany(Company company) {
         this.company = company;
     }
-
-
-
 }

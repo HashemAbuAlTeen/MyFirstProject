@@ -1,4 +1,4 @@
-package com.example.demo.Security;
+package com.example.demo.security;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,8 +10,7 @@ public class LoginUser {
     private String password;
     private String roles;
 
-    public LoginUser() {
-    }
+
 
     public String getUserName() {
         return userName;

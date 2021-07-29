@@ -1,4 +1,4 @@
-package com.example.demo.Security;
+package com.example.demo.security;
 
 public class AuthenticationResponse {
     private  String jwt;

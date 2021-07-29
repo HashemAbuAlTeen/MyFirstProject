@@ -1,4 +1,4 @@
-package com.example.demo.Security;
+package com.example.demo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,9 +25,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
         if(user.isPresent()){
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            Arrays.stream(user.get().getRoles().split(",")).forEach(authority ->{
-                authorities.add(new SimpleGrantedAuthority(authority));
-            });
+            Arrays.stream(user.get().getRoles().split(",")).forEach(authority ->
+                authorities.add(new SimpleGrantedAuthority(authority))
+            );
             return new User(user.get().getUserName(), user.get().getPassword(), authorities);
         }
         else {

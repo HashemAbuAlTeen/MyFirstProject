@@ -1,4 +1,4 @@
-package com.example.demo.User;
+package com.example.demo.user;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +19,7 @@ public class UserDao {
         this.entityManager = entityManager;
     }
 
-    List<User> findUserByIdAndFirstNameAndLastNameAndAgeAndCompany_Id(String id, String firstName, String lastName, String age){
+    List<User> findUserByIdAndFirstNameAndLastNameAndAgeAndCompanyId(String id, String firstName, String lastName, String age){
 
         return generalUserSearch(id , firstName ,lastName , age , "", "", "");
 
@@ -46,14 +46,16 @@ public class UserDao {
         if(!age.isEmpty())
             predicates.add( criteriaBuilder.equal(user.get("age"), age) );
 
+        final String company = "company";
+
         if(!companyId.isEmpty())
-            predicates.add( criteriaBuilder.equal(user.join("company").get("id") , companyId));
+            predicates.add( criteriaBuilder.equal(user.join(company).get("id") , companyId));
 
         if(!companyLocation.isEmpty())
-            predicates.add( criteriaBuilder.like(user.join("company").get("location") , companyLocation));
+            predicates.add( criteriaBuilder.like(user.join(company).get("location") , companyLocation));
 
         if(!companyName.isEmpty())
-            predicates.add( criteriaBuilder.like(user.join("company").get("name") , companyName));
+            predicates.add( criteriaBuilder.like(user.join(company).get("name") , companyName));
 
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));

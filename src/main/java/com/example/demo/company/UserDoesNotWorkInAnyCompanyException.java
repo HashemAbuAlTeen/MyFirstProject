@@ -1,6 +1,6 @@
-package com.example.demo.Company;
+package com.example.demo.company;
 
-import com.example.demo.User.User;
+import com.example.demo.user.User;
 
 public class UserDoesNotWorkInAnyCompanyException extends RuntimeException {
     public UserDoesNotWorkInAnyCompanyException(User user) {

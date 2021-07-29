@@ -1,4 +1,4 @@
-package com.example.demo.User;
+package com.example.demo.user;
 
 class UserNotFoundException extends RuntimeException {
 

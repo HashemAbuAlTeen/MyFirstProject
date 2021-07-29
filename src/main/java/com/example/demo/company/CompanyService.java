@@ -1,7 +1,7 @@
-package com.example.demo.Company;
+package com.example.demo.company;
 
-import com.example.demo.User.User;
-import com.example.demo.User.UserService;
+import com.example.demo.user.User;
+import com.example.demo.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,16 +31,18 @@ public class CompanyService {
     }
 
     public Company updateCompany(Company updatedCompany) {
-        repository.findById(updatedCompany.getId())
-                .orElseThrow (() -> new CompanyNotFoundException(updatedCompany.getId()) );
+        if(repository.existsById(updatedCompany.getId()))
+            return repository.save(updatedCompany);
+        else
+            throw new CompanyNotFoundException(updatedCompany.getId());
 
-        return repository.save(updatedCompany);
     }
 
     public void deleteCompany(int id) {
-        repository.findById(id)
-                .orElseThrow (() -> new CompanyNotFoundException(id ));
-        repository.deleteById(id);
+        if(repository.existsById(id))
+            repository.deleteById(id);
+        else
+            throw new CompanyNotFoundException(id );
     }
 
     public Company getById(int id) {
