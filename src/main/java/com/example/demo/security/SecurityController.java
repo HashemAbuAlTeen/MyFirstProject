@@ -31,7 +31,7 @@ public class SecurityController {
             );
         }
         catch(BadCredentialsException e){
-            return ResponseEntity.badRequest().body(new AuthenticationResponse("Incorrect username or password"));
+            throw new IncorrectUsernameOrPasswordException();
         }
 
         final UserDetails userDetails =  userDetailsService
