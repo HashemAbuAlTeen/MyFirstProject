@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.security.AuthenticationRequest;
 import com.example.demo.security.AuthenticationResponse;
+import com.example.demo.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -173,8 +176,20 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
                 String.class);
 
         assertThat( responseEntity.getStatusCode() ).isEqualTo(HttpStatus.FORBIDDEN);
+    }
 
+    @ParameterizedTest
+    @ValueSource(ints = {2})
+    void testGetCompanyUsers(int id) {
+        HttpHeaders header = new HttpHeaders();
+        header.add("Authorization", "Bearer " + adminJwt);
 
+        ResponseEntity<List> responseEntity= this.restTemplate.exchange("http://localhost:" + port + "/companies/" + id +"/users",
+                HttpMethod.GET,
+                new HttpEntity(header),
+                List.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isNotNull();
     }
 
 
