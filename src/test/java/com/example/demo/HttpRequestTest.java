@@ -68,7 +68,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
     @Test
-    void adminHiPageTestWithAdminCredentials()  {
+    void testAdminHiPageTestWithAdminCredentials()  {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + adminJwt);
@@ -85,7 +85,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
     }
 
     @Test
-    void adminHiPageTestWithUserCredentials()  {
+    void testAdminHiPageTestWithUserCredentials()  {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + userJwt);
@@ -101,7 +101,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
     }
 
     @Test
-    void adminHiPageTestWithWrongCredentials()  {
+    void testAdminHiPageTestWithWrongCredentials()  {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " +adminJwt + "x");
@@ -117,7 +117,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
     @ParameterizedTest
     @ValueSource(ints = {1 ,2 ,3})
-    void getUserByIdWithExistingUser(int id) throws Exception{
+    void testGetUserByIdWithExistingUser(int id) throws Exception{
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer "+ userJwt);
 
@@ -133,7 +133,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
     @ParameterizedTest
     @ValueSource(ints = {1 ,2 ,3})
-    void getUserByIdWithAdmin(int id) throws Exception{
+    void testGetUserByIdWithAdmin(int id) throws Exception{
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + adminJwt);
 
@@ -149,7 +149,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
     @ParameterizedTest
     @ValueSource(ints = {1 ,2 ,3})
-    void getUserByIdWithoutAuth(int id) {
+    void testGetUserByIdWithoutAuth(int id) {
         HttpHeaders header = new HttpHeaders();
 
 
@@ -163,7 +163,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
     @ParameterizedTest
     @ValueSource(ints = {1000})
-    void getUserByIdForWrongToken(int id) throws Exception{
+    void testGetUserByIdForWrongToken(int id) throws Exception{
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + adminJwt + "x");
 
