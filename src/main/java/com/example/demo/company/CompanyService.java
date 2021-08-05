@@ -30,6 +30,10 @@ public class CompanyService {
         return repository.save(company);
     }
 
+    public boolean exists(int id ) {
+        return repository.existsById(id);
+    }
+
     public Company updateCompany(Company updatedCompany) {
         if(repository.existsById(updatedCompany.getId()))
             return repository.save(updatedCompany);

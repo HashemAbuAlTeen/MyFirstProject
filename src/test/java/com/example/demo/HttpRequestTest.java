@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.company.Company;
+import com.example.demo.company.CompanyDto;
+import com.example.demo.company.CompanyService;
 import com.example.demo.security.AuthenticationRequest;
 import com.example.demo.security.AuthenticationResponse;
 import com.example.demo.user.User;
@@ -22,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
  class HttpRequestTest {
@@ -32,7 +37,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
     private int port;
 
     @Autowired
-    public TestRestTemplate restTemplate;
+    private TestRestTemplate restTemplate;
+
+    @Autowired
+    CompanyService companyService;
 
 
     private  String adminJwt = "";
@@ -182,7 +190,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
     @ValueSource(ints = {2})
     void testGetCompanyUsers(int id) {
         HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer " + adminJwt);
+        header.add("Authorization", "Bearer " + userJwt);
 
         ResponseEntity<List> responseEntity= this.restTemplate.exchange("http://localhost:" + port + "/companies/" + id +"/users",
                 HttpMethod.GET,
@@ -190,6 +198,84 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
                 List.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isNotNull();
+    }
+
+    @Test
+    void testPostCompany () {
+        HttpHeaders header = new HttpHeaders();
+        header.add("Authorization", "Bearer " + adminJwt);
+
+        CompanyDto companyDto = new CompanyDto();
+        companyDto.setLocation("Test Location");
+        companyDto.setName("Test Name");
+
+        HttpEntity<CompanyDto> request  = new HttpEntity<>(companyDto , header);
+        ResponseEntity<Company> responseEntity= this.restTemplate.postForEntity("http://localhost:" + port + "/admin/companies",
+                request , Company.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        int id = responseEntity.getBody().getId() ;
+        assertThat(responseEntity.getBody().getId()).isNotNull();
+
+        Company company = companyService.getById(id);
+        assertThat(company.getName()).isEqualTo("Test Name");
+        assertThat(company.getLocation()).isEqualTo("Test Location");
+
+        companyService.deleteCompany(id);
+    }
+
+    @Test
+    void testPutCompany () {
+        HttpHeaders header = new HttpHeaders();
+        header.add("Authorization", "Bearer " + adminJwt);
+
+        Company company = new Company();
+        company.setLocation("Test Location");
+        company.setName("Test Name");
+
+        company = companyService.createCompany(company);
+        assumeTrue(companyService.exists(company.getId()));
+        assumeTrue(companyService.getById(company.getId()).getLocation().equals("Test Location"));
+        CompanyDto companyDto = new CompanyDto();
+        companyDto.setId(company.getId());
+        companyDto.setName("Updated Name");
+        companyDto.setLocation("Updated Location");
+
+        HttpEntity<CompanyDto> request  = new HttpEntity<>(companyDto , header);
+        ResponseEntity<Company> responseEntity= this.restTemplate.exchange("http://localhost:" + port + "/admin/companies",
+                HttpMethod.PUT,request , Company.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        int id = responseEntity.getBody().getId() ;
+        assertThat(responseEntity.getBody().getId()).isNotNull();
+
+        company = companyService.getById(id);
+        assertThat(company.getName()).isEqualTo("Updated Name");
+        assertThat(company.getLocation()).isEqualTo("Updated Location");
+        companyService.deleteCompany(id);
+    }
+
+    @Test
+    void testDeleteCompany(){
+        HttpHeaders header = new HttpHeaders();
+        header.add("Authorization", "Bearer " + adminJwt);
+
+        Company company = new Company();
+        company.setLocation("Test Location");
+        company.setName("Test Name");
+
+        company = companyService.createCompany(company);
+        assumeTrue(companyService.exists(company.getId()));
+
+
+        HttpEntity<CompanyDto> request  = new HttpEntity<>(header);
+        ResponseEntity<Object> responseEntity= this.restTemplate.exchange("http://localhost:" + port + "/admin/companies/" + company.getId(),
+                HttpMethod.DELETE,request , Object.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(companyService.exists(company.getId())).isFalse();
+
+
     }
 
 
